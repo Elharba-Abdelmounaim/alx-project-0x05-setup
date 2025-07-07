@@ -11,7 +11,7 @@ const Layout: React.FC<ReactComponentProps> = ({ children }) => {
       </main>
       <Footer />
     </>
-  );
+  )
 }
 
 export default Layout;

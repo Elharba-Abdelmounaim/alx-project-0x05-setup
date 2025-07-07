@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 const Home: React.FC = () => {
   const handleGenerateImage = async () => {
     console.log("Generating Images")
@@ -8,7 +9,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
       <div className="flex flex-col items-center">
-        <h1 className="text-4xl text-black font-bold mb-2">Image Generation App</h1>
+        <h1 className="text-4xl font-bold mb-2">Image Generation App</h1>
         <p className="text-lg text-gray-700 mb-4">
           Generate stunning images based on your prompts!
         </p>
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
           <input
             type="text"
             placeholder="Enter your prompt here..."
-            className="w-full p-3 text-black border border-gray-300 rounded-lg mb-4"
+            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
           />
           <button
             onClick={handleGenerateImage}
@@ -27,7 +28,7 @@ const Home: React.FC = () => {
           </button>
         </div>
       </div>
-    </div>
+     </div>
   );
 };
 
