@@ -5,34 +5,31 @@ import React, { useState } from "react";
 const Home: React.FC = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [generatedImages, setGeneratedImages] = useState<ImageProps[]>(
-    []
-  );
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const [generatedImages, setGeneratedImages] = useState<ImageProps[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleGenerateImage = async () => {
     setIsLoading(true);
-    const resp = await fetch('/api/generate-image', {
-      method: 'POST',
-      body: JSON.stringify({
-        prompt
-      }),
+    const resp = await fetch("/api/generate-image", {
+      method: "POST",
+      body: JSON.stringify({ prompt }),
       headers: {
-        'Content-type': 'application/json'
-      }
-    })
-
+        "Content-type": "application/json",
+      },
+    });
 
     if (!resp.ok) {
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
 
-    const data = await resp.json()
-    setIsLoading(false)
+    const data = await resp.json();
+    setIsLoading(false);
     setImageUrl(data?.message);
-    setGeneratedImages((prev) => [...prev, { imageUrl: data?.message, prompt }])
+    setGeneratedImages((prev) => [
+      ...prev,
+      { imageUrl: data?.message, prompt },
+    ]);
   };
 
   return (
@@ -55,36 +52,36 @@ const Home: React.FC = () => {
             onClick={handleGenerateImage}
             className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
           >
-            {
-              isLoading ? "Loading..." : "Generate Image"
-            }
+            {isLoading ? "Loading..." : "Generate Image"}
           </button>
         </div>
 
-        {imageUrl && <ImageCard action={() => setImageUrl(imageUrl)} imageUrl={imageUrl} prompt={prompt} />}
+        {imageUrl && (
+          <ImageCard
+            action={() => setImageUrl(imageUrl)}
+            imageUrl={imageUrl}
+            prompt={prompt}
+          />
+        )}
       </div>
-      {
-        generatedImages.length ? (
-          <div className="">
-            <h3 className="text-xl text-center mb-4">Generated Images</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 border max-w-full md:max-w-[1100px] p-2 overflow-y-scroll h-96">
-              {generatedImages?.map(
-                ({ imageUrl, prompt }: ImageProps, index) => (
-                  <ImageCard
-                    action={() => setImageUrl(imageUrl)}
-                    imageUrl={imageUrl}
-                    prompt={prompt}
-                    key={index}
-                    width="w-full"
-                    height="h-40"
-                  />
-                )
-              )}
-            </div>
-          </div>
 
-        ) : ""
-      }
+      {generatedImages.length > 0 && (
+        <div>
+          <h3 className="text-xl text-center mb-4">Generated Images</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 border max-w-full md:max-w-[1100px] p-2 overflow-y-scroll h-96">
+            {generatedImages.map(({ imageUrl, prompt }: ImageProps, index) => (
+              <ImageCard
+                action={() => setImageUrl(imageUrl)}
+                imageUrl={imageUrl}
+                prompt={prompt}
+                key={index}
+                width="w-full"
+                height="h-40"
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
